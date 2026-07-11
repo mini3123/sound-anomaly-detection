@@ -103,7 +103,6 @@ sound_anomaly_project/
 ├── data/          # MIMII 데이터 (-6dB=slider, slider_6dB, slider_0dB; git 제외)
 ├── notebooks/     # 실험 노트북 + 단계별 설계 문서(XX_설계.md)
 ├── models/        # 복원 baseline(ae_id00_v1.pth 등) + 분류 앙상블(idclf_0~4.pth, clf_minmax/clf_thresholds.npy)
-├── docs/          # 도입 시나리오, 면접 예상질문, 확장 로드맵
 ├── assets/        # README용 대표 그래프 PNG
 ├── app.py         # Streamlit 데모 (streamlit run app.py)
 ├── db_config.py   # MySQL 접속 설정 (비밀번호 포함 → git 제외)
@@ -136,14 +135,6 @@ sound_anomaly_project/
 - `14_confusion_diagnosis.ipynb` : 불안정 원인 진단 (혼동행렬 + 정상/이상 확률 분포)
 - `15_ensemble.ipynb` : 다중 초기값 앙상블 검증 (고정 split, 초기값 vs 분할 원인 분리)
 - `16_save_ensemble.ipynb` : 배포용 앙상블 모델 5개 + 정규화/임계값 저장 (설계: `16_ensemble_deploy_설계.md`)
-
-## 문서 (docs/)
-
-- `개발과정.md` : 전체 개발 과정 상세 (포트폴리오 재료)
-- `deployment_scenario.md` : 아진산업 프레스 도입 시나리오 (배경·구성도·운영정책·한계)
-- `면접_예상질문.md` : 프로젝트 관련 예상 질문 + 답변 (핵심 서사 3분 설명 포함)
-- `논문_분석.md` : MIMII / DCASE 문헌 분석
-- `확장_로드맵.md` : 앞으로 할 것 (진동 데이터 비교, 선풍기 실데이터 등)
 
 ## 데모 실행법
 
