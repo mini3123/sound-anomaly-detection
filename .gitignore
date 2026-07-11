@@ -10,6 +10,7 @@ docs/
 interview_questions.md
 limitations_and_risks.md
 *_설계.md
+AGENTS.md
 
 # 파이썬 캐시/임시
 __pycache__/
@@ -19,6 +20,7 @@ __pycache__/
 # 에디터/도구 설정
 .vscode/
 .claude/
+.agents/
 
 # 기타
 *.log

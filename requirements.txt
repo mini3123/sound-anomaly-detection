@@ -1,0 +1,12 @@
+# 이 프로젝트 실행에 필요한 파이썬 패키지
+# 설치: pip install -r requirements.txt
+# 권장 환경: Python 3.11 (conda)
+
+torch==2.11.0          # GPU(CUDA) 사용 시 https://pytorch.org 에서 CUDA 빌드로 설치
+librosa==0.11.0        # 소리 → 멜 스펙트로그램
+numpy==2.4.6
+matplotlib==3.11.0
+koreanize-matplotlib==0.1.1  # Matplotlib 그래프 한글 폰트 설정
+scikit-learn==1.9.0    # AUC, ROC
+pymysql==2.2.8         # MySQL 판정 로그 DB (app.py)
+streamlit==1.59.1      # 데모 웹앱 (app.py)
