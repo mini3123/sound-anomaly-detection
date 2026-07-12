@@ -17,9 +17,10 @@ import streamlit as st
 import torch
 
 from db_config import DB_CONFIG
-from src.config import HOP_LENGTH, MODEL_DIR, N_FFT, N_MELS
+from src.config import HOP_LENGTH, MODEL_DIR, SR
 from src.evaluate import predict_proba
 from src.model import IDClassifier
+from src.preprocess import wav_to_mel_robust
 
 
 MACHINES = ('id_00', 'id_02', 'id_04', 'id_06')
@@ -51,21 +52,14 @@ machine_idx = MACHINES.index(machine)
 uploaded = st.file_uploader('설비 소리 wav 파일 업로드', type='wav')
 
 if uploaded is not None:
-    y, sr = librosa.load(uploaded, sr=None)
     st.audio(uploaded)
-    mel_db = librosa.power_to_db(
-        librosa.feature.melspectrogram(
-            y=y,
-            sr=sr,
-            n_mels=N_MELS,
-            n_fft=N_FFT,
-            hop_length=HOP_LENGTH,
-        )
-    )
 
-    # 학습 데이터와 같은 10초·16 kHz 입력만 판정한다.
-    if mel_db.shape[1] != 313:
-        st.warning(f'이 데모는 10초(16 kHz) wav 전용입니다. (현재 프레임 {mel_db.shape[1]}개)')
+    # 길이와 샘플레이트를 학습 조건(10초·16kHz)에 자동으로 맞춘다.
+    try:
+        uploaded.seek(0)
+        mel_db = wav_to_mel_robust(uploaded)
+    except ValueError as error:
+        st.warning(str(error))
         st.stop()
 
     xNP = ((mel_db - MIN) / (MAX - MIN)).reshape(1, -1)
@@ -89,7 +83,7 @@ if uploaded is not None:
     fig, ax = plt.subplots(figsize=(10, 4))
     librosa.display.specshow(
         mel_db,
-        sr=sr,
+        sr=SR,
         hop_length=HOP_LENGTH,
         x_axis='time',
         y_axis='mel',

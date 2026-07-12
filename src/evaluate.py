@@ -62,3 +62,25 @@ def predict_proba(model, dataNP, device):
         x = torch.FloatTensor(dataNP.reshape(len(dataNP), -1)).to(device)
         proba = torch.softmax(model(x), dim=1)
     return proba.cpu().numpy()
+
+
+## -> 함수 기능 : 멜 스펙트로그램마다 분류 직전 128차원 특징 추출
+## -> 매개 변수 : model, dataNP - (개수,64,313), device, batch_size
+## -> 함수 결과 : (개수,128) 임베딩 ndarray
+def extract_embeddings(model, dataNP, device, batch_size=128):
+    """IDClassifier의 마지막 Linear 직전 임베딩을 배치 단위로 반환."""
+    model.eval()
+    embedding_list = []
+
+    # 전체 데이터를 한꺼번에 GPU에 올리지 않도록 작은 배치로 나눈다.
+    with torch.no_grad():
+        for start in range(0, len(dataNP), batch_size):
+            end = start + batch_size
+            batchNP = dataNP[start:end]
+            x = torch.FloatTensor(batchNP.reshape(len(batchNP), -1)).to(device)
+            embedding = model.extract_embedding(x)
+            embedding_list.append(embedding.cpu().numpy())
+
+    if len(embedding_list) == 0:
+        return np.empty((0, 128), dtype=np.float32)
+    return np.concatenate(embedding_list, axis=0)

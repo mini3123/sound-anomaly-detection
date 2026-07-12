@@ -22,6 +22,10 @@ __pycache__/
 .claude/
 .agents/
 
+# 발표 생성 툴 산출물 (node_modules·wasm 등 30MB, 커밋 금지)
+outputs/
+
 # 기타
 *.log
 .DS_Store
+

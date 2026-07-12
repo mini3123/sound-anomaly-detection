@@ -90,8 +90,13 @@ class IDClassifier(nn.Module):
             nn.Linear(128, num_classes),          # logits (softmax는 손실/점수에서)
         )
 
-    def forward(self, x):
+    def extract_embedding(self, x):
+        """마지막 분류층 직전의 128차원 특징을 반환한다."""
         b = x.shape[0]
         x = x.view(b, 1, 64, 313)
         z = self.enc_conv(x).view(b, -1)
-        return self.fc(z)                          # (b, num_classes)
+        return self.fc[1](self.fc[0](z))           # (b, 128)
+
+    def forward(self, x):
+        embedding = self.extract_embedding(x)
+        return self.fc[2](embedding)                # (b, num_classes)

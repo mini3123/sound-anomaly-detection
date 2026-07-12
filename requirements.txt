@@ -10,3 +10,4 @@ koreanize-matplotlib==0.1.1  # Matplotlib 그래프 한글 폰트 설정
 scikit-learn==1.9.0    # AUC, ROC
 pymysql==2.2.8         # MySQL 판정 로그 DB (app.py)
 streamlit==1.59.1      # 데모 웹앱 (app.py)
+pytest                 # 실제 데이터 없이 실행하는 자동 테스트
